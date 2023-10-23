@@ -1,15 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f3f3f3;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f3f4f6;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
 .video-container {
   padding: 20px;
   border-radius: 10px;
+  background: white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .video-upload {
@@ -27,7 +32,6 @@ body {
 
 .video-upload-label:hover {
   background: #0056b3;
-  user-select: none;
 }
 
 input[type="file"] {
@@ -42,25 +46,36 @@ input[type="file"] {
 }
 
 video {
-  width: 70%;
-  height: 70%;
+  max-width: 70%;
   display: none;
 }
 
 #mic {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
 #microphone {
-  border: 1px solid black;
-  border-radius: 100%;
-  display: none;
+  border: none;
+  border-radius: 50%;
   padding: 10px;
-  margin-top: 10px;
+  display: none;
   cursor: pointer;
+  transition: transform 0.3s;
 }
 
 #microphone:hover {
-  background: #a7a6a6;
+  transform: scale(1.1);
+}
+
+#recordText, #recordText1 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #7B7F9E;
+  display: none;
+  text-align: center;
+  margin-top: 10px;
 }

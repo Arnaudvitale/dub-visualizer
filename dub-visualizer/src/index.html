@@ -9,13 +9,15 @@
     <div class="video-container">
       <div class="video-upload">
           <input type="file" id="videoSelector" accept="video/mp4,video/x-m4v,video/*" />
-          <label for="videoSelector" class="video-upload-label">Choisissez une vidéo</label>
+          <label for="videoSelector" class="video-upload-label">select a video</label>
         </div>
         <div class="video-player">
           <video id="myVideo" controls></video>
         </div>
         <div id="mic">
           <img src="../img/microphone-solid.svg" id="microphone" height="50px" width="50px"/>
+          <p id="recordText1">click to record</p>
+          <p id="recordText">record in progress...</p>
         </div>
       </div>
 </html>
