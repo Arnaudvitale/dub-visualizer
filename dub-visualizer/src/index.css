@@ -1,0 +1,66 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.video-container {
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.video-upload {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.video-upload-label {
+  padding: 12px 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.video-upload-label:hover {
+  background: #0056b3;
+  user-select: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.video-player {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+video {
+  width: 70%;
+  height: 70%;
+  display: none;
+}
+
+#mic {
+  display: flex;
+  justify-content: center;
+}
+
+#microphone {
+  border: 1px solid black;
+  border-radius: 100%;
+  display: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+#microphone:hover {
+  background: #a7a6a6;
+}

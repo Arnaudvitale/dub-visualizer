@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>dub-visualizer</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="video-container">
+      <div class="video-upload">
+          <input type="file" id="videoSelector" accept="video/mp4,video/x-m4v,video/*" />
+          <label for="videoSelector" class="video-upload-label">Choisissez une vidéo</label>
+        </div>
+        <div class="video-player">
+          <video id="myVideo" controls></video>
+        </div>
+        <div id="mic">
+          <img src="../img/microphone-solid.svg" id="microphone" height="50px" width="50px"/>
+        </div>
+      </div>
+</html>
