@@ -2,7 +2,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f3f4f6;
+  background: linear-gradient(90deg, #1E1E1E 0%, #2D2D2D 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,8 +13,6 @@ body {
 .video-container {
   padding: 20px;
   border-radius: 10px;
-  background: white;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .video-upload {
@@ -24,14 +22,15 @@ body {
 
 .video-upload-label {
   padding: 12px 20px;
-  background: #007bff;
+  background-color: blueviolet;
   color: white;
   border-radius: 5px;
+  user-select: none;
   cursor: pointer;
 }
 
 .video-upload-label:hover {
-  background: #0056b3;
+  background-color: #7524c1;
 }
 
 input[type="file"] {
@@ -46,7 +45,7 @@ input[type="file"] {
 }
 
 video {
-  max-width: 70%;
+  max-width: 65%;
   display: none;
 }
 
@@ -55,11 +54,13 @@ video {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: none;
   margin-top: 20px;
 }
 
 #microphone {
-  border: none;
+  filter: none;
+  border: 2px solid black;
   border-radius: 50%;
   padding: 10px;
   display: none;
@@ -78,4 +79,17 @@ video {
   display: none;
   text-align: center;
   margin-top: 10px;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.5s ease-in-out;
 }
