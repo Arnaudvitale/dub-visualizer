@@ -1,8 +1,10 @@
+const path = require('path');
+
 module.exports = {
   packagerConfig: {
     asar: true,
+    icon: path.join(__dirname, 'img', 'recordapp')
   },
-  rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',

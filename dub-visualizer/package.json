@@ -28,5 +28,8 @@
     "@electron-forge/maker-zip": "^6.4.2",
     "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
     "electron": "27.0.2"
+  },
+  "build": {
+    "icon": "img/recordapp"
   }
 }
