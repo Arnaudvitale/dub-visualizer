@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeOptions = document.getElementById('theme-options');
     const lightThemeButton = document.getElementById('light-theme');
     const darkThemeButton = document.getElementById('dark-theme');
+    const bod = document.getElementById('bod');
+    localStorage.setItem('theme', 'dark');
+
+    /* functions */
 
     // Function to toggle the theme options menu
     function toggleThemeOptions() {
@@ -52,8 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Start recording
                     myVideo.play();
                     recordText.style.display = 'block';
-                    addFadeInAnimation(recordText);
                     unrecordedText.style.display = 'none';
+                    addFadeInAnimation(recordText);
                     startRecording(stream);
                 })
                 .catch(err => {
@@ -73,7 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
             recordedChunks = [];
             // Visual feedback for recording
             recordButton.style.border = 'none';
-            recordButton.style.filter = 'invert(100%)';
+            if (localStorage.getItem('theme') === 'dark') {
+                recordButton.style.filter = 'invert(100%)';
+            } else if (localStorage.getItem('theme') === 'light') {
+                recordButton.style.filter = 'none';
+            }
         };
 
         mediaRecorder.ondataavailable = (event) => {
@@ -106,6 +114,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Start recording
         mediaRecorder.start();
+    }
+
+    // Function to handle video selection
+    function videoSelection(event) {
+        var file = event.target.files[0];
+        var fileURL = URL.createObjectURL(file);
+
+        myVideo.src = fileURL;
+        myVideo.style.display = 'block';
+        recordButton.style.display = 'block';
+        unrecordedText.style.display = 'block';
+        addFadeInAnimation(myVideo);
     }
 
     // Function to handle key presses
@@ -153,16 +173,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to handle video selection
+    /* event listeners */
     videoSelector.addEventListener('change', function(event) {
-        var file = event.target.files[0];
-        var fileURL = URL.createObjectURL(file);
-
-        myVideo.src = fileURL;
-        myVideo.style.display = 'block';
-        recordButton.style.display = 'block';
-        unrecordedText.style.display = 'block';
-        addFadeInAnimation(myVideo);
+        videoSelection(event);
     });
 
     myVideo.addEventListener('ended', function() {
@@ -176,10 +189,18 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     lightThemeButton.addEventListener('click', function() {
+        bod.style.background = 'white';
+        recordText.style.color = 'gray';
+        unrecordedText.style.color = 'gray';
+        localStorage.setItem('theme', 'light');
         toggleThemeOptions();
     });
 
     darkThemeButton.addEventListener('click', function() {
+        bod.style.background = 'linear-gradient(90deg, #1E1E1E 0%, #2D2D2D 100%)';
+        recordText.style.color = 'white';
+        unrecordedText.style.color = 'white';
+        localStorage.setItem('theme', 'dark');
         toggleThemeOptions();
     });
 
