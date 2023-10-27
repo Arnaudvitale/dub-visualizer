@@ -99,6 +99,7 @@ video {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  user-select: none;
   font-size: 24px;
   z-index: 2;
 }
@@ -135,6 +136,7 @@ video {
   background-color: #808080;
   color: white;
   cursor: pointer;
+  user-select: none;
   transition: background-color 0.3s ease;
 }
 
