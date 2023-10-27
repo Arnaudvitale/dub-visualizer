@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
+    <div id="settings-panel">
+      <button id="settings-button">⚙️</button>
+      <div id="theme-options" class="hidden">
+          <div id="theme-buttons">
+              <button id="light-theme">Light</button>
+              <button id="dark-theme">Dark</button>
+          </div>
+      </div>
+    </div>
     <div class="video-container" id="vid-cont">
       <div class="video-upload">
           <input type="file" id="videoSelector" accept="video/mp4,video/x-m4v,video/*" />
@@ -20,4 +29,5 @@
           <p id="recordText">record in progress...</p>
         </div>
       </div>
+  </body>
 </html>
