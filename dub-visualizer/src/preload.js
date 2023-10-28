@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeOptions = document.getElementById('theme-options');
     const lightThemeButton = document.getElementById('light-theme');
     const darkThemeButton = document.getElementById('dark-theme');
+    const paramButton = document.getElementById('parameter');
     const bod = document.getElementById('bod');
     localStorage.setItem('theme', 'dark');
 
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             themeOptions.classList.add('hidden');
             themeOptions.style.right = '-600px';
         }
+        addRotateAnimation(settingsButton);
     }
 
     // Function to add a fade-in animation to an element
@@ -32,6 +34,14 @@ document.addEventListener('DOMContentLoaded', function() {
         element.classList.add('fade-in');
         element.addEventListener('animationend', () => {
             element.classList.remove('fade-in');
+        });
+    }
+
+    // Function to add a rotate animation to an element
+    function addRotateAnimation(element) {
+        element.classList.add('rotate');
+        element.addEventListener('animationend', () => {
+            element.classList.remove('rotate');
         });
     }
 
@@ -181,10 +191,12 @@ document.addEventListener('DOMContentLoaded', function() {
     myVideo.addEventListener('ended', function() {
         if (mediaRecorder && mediaRecorder.state === 'recording') {
             stopRecording();
+            myVideo.currentTime = 0;
         }
     });
 
     settingsButton.addEventListener('click', function() {
+        addRotateAnimation(settingsButton);
         toggleThemeOptions();
     });
 
@@ -193,6 +205,10 @@ document.addEventListener('DOMContentLoaded', function() {
         recordText.style.color = 'gray';
         unrecordedText.style.color = 'gray';
         localStorage.setItem('theme', 'light');
+        toggleThemeOptions();
+    });
+
+    paramButton.addEventListener('click', function() {
         toggleThemeOptions();
     });
 
