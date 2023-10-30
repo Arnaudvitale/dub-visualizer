@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightThemeButton = document.getElementById('light-theme');
     const darkThemeButton = document.getElementById('dark-theme');
     const paramButton = document.getElementById('parameter');
+    const closePopupButton = document.getElementById('close-btn-id');
     const bod = document.getElementById('bod');
     localStorage.setItem('theme', 'dark');
 
@@ -27,6 +28,11 @@ document.addEventListener('DOMContentLoaded', function() {
             themeOptions.style.right = '-600px';
         }
         addRotateAnimation(settingsButton);
+    }
+
+    // Function to toggle the popup
+    function TogglePopup() {
+        document.getElementById('popup-1').classList.toggle('active');
     }
 
     // Function to add a fade-in animation to an element
@@ -209,7 +215,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     paramButton.addEventListener('click', function() {
+        if (myVideo.play) {
+            myVideo.pause();
+        }
         toggleThemeOptions();
+        TogglePopup();
+    });
+
+    closePopupButton.addEventListener('click', function() {
+        TogglePopup();
     });
 
     darkThemeButton.addEventListener('click', function() {
