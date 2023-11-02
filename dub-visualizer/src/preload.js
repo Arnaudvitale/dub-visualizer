@@ -18,6 +18,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* functions */
 
+    function populateAudioDevices() {
+        navigator.mediaDevices.enumerateDevices().then(devices => {
+            devices.forEach(device => {
+                let option = document.createElement('option');
+                option.value = device.deviceId;
+                option.textContent = device.label || 'no name device';
+                if (device.kind === 'audioinput') {
+                    document.getElementById('audioInput').appendChild(option.cloneNode(true));
+                } else if (device.kind === 'audiooutput') {
+                    document.getElementById('audioOutput').appendChild(option.cloneNode(true));
+                }
+            });
+        }).catch(error => {
+            console.error("Error enumerating devices:", error);
+        });
+    }
+    populateAudioDevices();
+
     // Function to toggle the theme options menu
     function toggleThemeOptions() {
         if (themeOptions.classList.contains('hidden')) {
@@ -66,19 +84,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleRecording() {
         // If we are not currently recording
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-            // Request access to the microphone
-            navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(stream => {
-                    // Start recording
-                    myVideo.play();
-                    recordText.style.display = 'block';
-                    unrecordedText.style.display = 'none';
-                    addFadeInAnimation(recordText);
-                    startRecording(stream);
-                })
-                .catch(err => {
-                    console.error('Error trying to access microphone:', err);
-                });
+            // Get the selected audio input device
+            var selectedAudioInputId = document.getElementById('audioInput').value;
+            navigator.mediaDevices.getUserMedia({
+                audio: {
+                    deviceId: selectedAudioInputId ? { exact: selectedAudioInputId } : undefined
+                }
+            })
+            .then(stream => {
+                // Start recording
+                myVideo.play();
+                recordText.style.display = 'block';
+                unrecordedText.style.display = 'none';
+                addFadeInAnimation(recordText);
+                startRecording(stream);
+            })
+            .catch(err => {
+                console.error('Error trying to access microphone:', err);
+            });
         } else {
             stopRecording();
         }
