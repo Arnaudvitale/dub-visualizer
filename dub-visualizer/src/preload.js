@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* functions */
 
+    // Function to populate the audio devices dropdowns
     function populateAudioDevices() {
         navigator.mediaDevices.enumerateDevices().then(devices => {
             devices.forEach(device => {
@@ -25,9 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.value = device.deviceId;
                 option.textContent = device.label || 'no name device';
                 if (device.kind === 'audioinput') {
-                    document.getElementById('audioInput').appendChild(option.cloneNode(true));
+                    document.getElementById('audioInput').appendChild(option.cloneNode(true)); // cloneNode(true) to avoid the error "An attempt was made to reference a Node in a context where it does not exist."
                 } else if (device.kind === 'audiooutput') {
-                    document.getElementById('audioOutput').appendChild(option.cloneNode(true));
+                    document.getElementById('audioOutput').appendChild(option.cloneNode(true)); // cloneNode(true) to avoid the error "An attempt was made to reference a Node in a context where it does not exist."
                 }
             });
         }).catch(error => {
