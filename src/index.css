@@ -180,7 +180,7 @@ video {
   transform: translate(-50%, -50%) scale(0);
   background: #fff;
   width: 670px;
-  height: 440px;
+  height: 480px;
   z-index: 2;
   padding: 20px;
   box-sizing: border-box;
@@ -220,6 +220,7 @@ video {
 
 select {
   font-family: Arial, sans-serif;
+  width: calc(50% - 10px);
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -245,7 +246,6 @@ select:focus {
   background-color: #e7f3ff;
 }
 
-/* Arrow to show it's a dropdown - created using a background image */
 select::-ms-expand {
   display: none; /* Hide the default arrow in IE/Edge */
 }
@@ -255,6 +255,10 @@ select {
   background-position: right 12px center;
   background-repeat: no-repeat;
   padding-right: 24px; /* Space for the arrow */
+}
+
+#audioInput {
+  margin-right: 10px;
 }
 
 /* animations */

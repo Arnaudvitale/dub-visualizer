@@ -89,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
             // Get the selected audio input device
             var selectedAudioInputId = document.getElementById('audioInput').value;
+            if (selectedAudioInputId === "select a microphone") {
+                selectedAudioInputId = undefined; // set to default microphone
+            }
             navigator.mediaDevices.getUserMedia({
                 audio: {
                     deviceId: selectedAudioInputId ? { exact: selectedAudioInputId } : undefined
@@ -207,7 +210,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 event.preventDefault();
                 break;
             case 'KeyR':
-                toggleRecording();
+                if (event.shiftKey) {
+                    myVideo.currentTime = 0;
+                    toggleRecording();
+                } else {
+                    toggleRecording();
+                }
                 event.preventDefault();
                 break;
             case 'Escape':
