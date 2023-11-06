@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // themes
     const settingsButton = document.getElementById('settings-button');
     const themeOptions = document.getElementById('theme-options');
+    const overlay = document.querySelector('.overlay');
+    const overlayStyles = window.getComputedStyle(overlay);
     const lightThemeButton = document.getElementById('light-theme');
     const darkThemeButton = document.getElementById('dark-theme');
     const paramButton = document.getElementById('parameter');
@@ -206,6 +208,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'KeyR':
                 toggleRecording();
+                event.preventDefault();
+                break;
+            case 'Escape':
+                if (overlayStyles.display === 'block') {
+                    TogglePopup();
+                }
                 event.preventDefault();
                 break;
             default:
