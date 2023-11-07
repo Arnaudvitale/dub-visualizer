@@ -10,23 +10,27 @@
       <div class="overlay"></div>
       <div class="content">
         <div class="close-btn" id="close-btn-id">&times;</div>
-        <h1 class="popup-title">Shortcuts list</h1>
+        <select id="language-select">
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+        </select>
+        <h1 data-translate="shortcuts_list" class="popup-title">Shortcuts list</h1>
         <p>
           <ul>
-            <li>Esc - Close the shortcuts list</li>
-            <li>R - Record / Stop recording</li>
-            <li>Spacebar - Play/Pause</li>
-            <li>Left Arrow - Rewind 1 second</li>
-            <li>Right Arrow - Fast Forward 1 second</li>
-            <li>Up Arrow - Go to the end of the video</li>
-            <li>Down Arrow - Go to the beginning of the video</li>
-            <li>Shift + Left Arrow - Rewind 0.1 second</li>
-            <li>Shift + Right Arrow - Fast Forward 0.1 second</li>
-            <li>Shift + R - Go to the beginning of the video and start recording</li>
+            <li data-translate="esc_close">Esc - Close the shortcuts list</li>
+            <li data-translate="r_record">R - Record / Stop recording</li>
+            <li data-translate="space_play_pause">Spacebar - Play / Pause</li>
+            <li data-translate="left_rewind">Left Arrow - Rewind 1 second</li>
+            <li data-translate="right_forward">Right Arrow - Fast Forward 1 second</li>
+            <li data-translate="up_end">Up Arrow - Go to the end of the video</li>
+            <li data-translate="down_beginning">Down Arrow - Go to the beginning of the video</li>
+            <li data-translate="shift_left_rewind">Shift + Left Arrow - Rewind 0.1 second</li>
+            <li data-translate="shift_right_forward">Shift + Right Arrow - Fast Forward 0.1 second</li>
+            <li data-translate="shift_r_record">Shift + R - Go to the beginning of the video and start recording</li>
           </ul>
-          <h1 class="popup-title">Select your audio devices</h1>
-          <select name="" id="audioInput"><option selected disabled>select a microphone</option></select>
-          <select id="audioOutput"><option selected disabled>select a headphones</option></select>
+          <h1 data-translate="audio_device" class="popup-title">Select your audio devices</h1>
+          <select data-translate="audioInputDevice" id="audioInput"><option selected disabled>select a microphone</option></select>
+          <select data-translate="audioOutputDevice" id="audioOutput"><option selected disabled>select a headphone</option></select>
         </p>
       </div>
     </div>
@@ -34,24 +38,24 @@
       <button id="settings-button">⚙️</button>
       <div id="theme-options" class="hidden">
           <div id="theme-buttons">
-              <button id="light-theme">Light</button>
-              <button id="dark-theme">Dark</button>
-              <button id="parameter">Parameter</button>
+              <button data-translate="themeLight" id="light-theme">Light</button>
+              <button data-translate="themeDark" id="dark-theme">Dark</button>
+              <button data-translate="params" id="parameter">Settings</button>
           </div>
       </div>
     </div>
     <div class="video-container" id="vid-cont">
       <div class="video-upload">
           <input type="file" id="videoSelector" accept="video/mp4,video/x-m4v,video/*" />
-          <label for="videoSelector" class="video-upload-label">select a video</label>
+          <label data-translate="vid-select" for="videoSelector" class="video-upload-label">Select a video</label>
         </div>
         <div class="video-player">
           <video id="myVideo" controls></video>
         </div>
         <div id="mic">
           <img src="../img/microphone-solid.svg" id="microphone" height="50px" width="50px"/>
-          <p id="recordText1">click to record</p>
-          <p id="recordText">record in progress...</p>
+          <p data-translate="recordTextOne" id="recordText1">click to record</p>
+          <p data-translate="recordingText" id="recordText">record in progress...</p>
         </div>
       </div>
   </body>

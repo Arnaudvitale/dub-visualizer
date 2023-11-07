@@ -18,7 +18,66 @@ document.addEventListener('DOMContentLoaded', function() {
     const bod = document.getElementById('bod');
     localStorage.setItem('theme', 'dark');
 
+    // translations
+    const translations = {
+        "en": {
+            "shortcuts_list": "Shortcuts list",
+            "esc_close": "Esc - Close the shortcuts list",
+            "r_record": "R - Record / Stop recording",
+            "space_play_pause": "Spacebar - Play / Pause",
+            "left_rewind": "Left Arrow - Rewind 1 second",
+            "right_forward": "Right Arrow - Fast Forward 1 second",
+            "up_end": "Up Arrow - Go to the end of the video",
+            "down_beginning": "Down Arrow - Go to the beginning of the video",
+            "shift_left_rewind": "Shift + Left Arrow - Rewind 0.1 second",
+            "shift_right_forward": "Shift + Right Arrow - Fast Forward 0.1 second",
+            "shift_r_record": "Shift + R - Go to the beginning of the video and start recording",
+            "audio_device": "Select your audio devices",
+            "audioInputDevice": "select a microphone",
+            "audioOutputDevice": "select a headphone",
+            "themeLight": "Light",
+            "themeDark": "Dark",
+            "params": "Settings",
+            "vid-select": "Select a video",
+            "recordTextOne": "click to record",
+            "recordingText": "record in progress...",
+        },
+        "fr": {
+            "shortcuts_list": "Liste des raccourcis",
+            "esc_close": "Esc - Fermer la liste des raccourcis",
+            "r_record": "R - Enregistrer / Arrêter l'enregistrement",
+            "space_play_pause": "Barre d'espace - Lire/Pause",
+            "left_rewind": "Flèche gauche - Rembobiner 1 seconde",
+            "right_forward": "Flèche droite - Avancer rapide 1 seconde",
+            "up_end": "Flèche haut - Aller à la fin de la vidéo",
+            "down_beginning": "Flèche bas - Aller au début de la vidéo",
+            "shift_left_rewind": "Shift + Flèche gauche - Rembobiner 0.1 secondes",
+            "shift_right_forward": "Shift + Flèche droite - Avancer rapide 0.1 secondes",
+            "shift_r_record": "Shift + R - Aller au début de la vidéo et commencer l'enregistrement",
+            "audio_device": "Sélectionnez vos périphériques audio",
+            "audioInputDevice": "sélectionnez un microphone",
+            "audioOutputDevice": "sélectionnez un casque",
+            "themeLight": "Clair",
+            "themeDark": "Sombre",
+            "params": "Paramètres",
+            "vid-select": "Sélectionnez une vidéo",
+            "recordTextOne": "cliquez pour enregistrer",
+            "recordingText": "enregistrement en cours...",
+        }
+      };
+
     /* functions */
+
+    // Set default language to English
+    function updateTexts(language) {
+        document.querySelectorAll('[data-translate]').forEach(el => {
+          const key = el.getAttribute('data-translate');
+          el.textContent = translations[language][key];
+        });
+        // refresh audio devices
+        populateAudioDevices();
+    }
+    updateTexts('en');
 
     // Function to populate the audio devices dropdowns
     function populateAudioDevices() {
@@ -89,8 +148,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
             // Get the selected audio input device
             var selectedAudioInputId = document.getElementById('audioInput').value;
-            if (selectedAudioInputId === "select a microphone") {
+            var selectedAudioOutputId = document.getElementById('audioOutput').value;
+            if (selectedAudioInputId === "select a microphone" || selectedAudioInputId === "Sélectionnez un microphone") {
                 selectedAudioInputId = undefined; // set to default microphone
+            } else if (selectedAudioOutputId === "select a headphone" || selectedAudioOutputId === "Sélectionnez un casque") {
+                selectedAudioOutputId = undefined; // set to default headphones
             }
             navigator.mediaDevices.getUserMedia({
                 audio: {
@@ -230,6 +292,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /* event listeners */
+
+    // Event listener for language selection changes
+    document.getElementById('language-select').addEventListener('change', function(event) {
+        updateTexts(event.target.value);
+    });
+
     videoSelector.addEventListener('change', function(event) {
         videoSelection(event);
     });
