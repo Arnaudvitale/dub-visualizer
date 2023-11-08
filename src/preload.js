@@ -63,7 +63,29 @@ document.addEventListener('DOMContentLoaded', function() {
             "vid-select": "Sélectionnez une vidéo",
             "recordTextOne": "cliquez pour enregistrer",
             "recordingText": "enregistrement en cours...",
-        }
+        },
+        "es": {
+            "shortcuts_list": "Lista de atajos",
+            "esc_close": "Esc - Cerrar la lista de atajos",
+            "r_record": "R - Grabar / Detener la grabación",
+            "space_play_pause": "Barra espaciadora - Reproducir / Pausa",
+            "left_rewind": "Flecha izquierda - Rebobinar 1 segundo",
+            "right_forward": "Flecha derecha - Avance rápido 1 segundo",
+            "up_end": "Flecha arriba - Ir al final del video",
+            "down_beginning": "Flecha abajo - Ir al principio del video",
+            "shift_left_rewind": "Shift + Flecha izquierda - Rebobinar 0.1 segundos",
+            "shift_right_forward": "Shift + Flecha derecha - Avance rápido 0.1 segundos",
+            "shift_r_record": "Shift + R - Ir al principio del video y comenzar a grabar",
+            "audio_device": "Seleccione sus dispositivos de audio",
+            "audioInputDevice": "selecciona un micrófono",
+            "audioOutputDevice": "selecciona un auricular",
+            "themeLight": "Claro",
+            "themeDark": "Oscuro",
+            "params": "Ajustes",
+            "vid-select": "Seleccione un video",
+            "recordTextOne": "haga clic para grabar",
+            "recordingText": "grabación en curso...",
+        },
       };
 
     /* functions */
