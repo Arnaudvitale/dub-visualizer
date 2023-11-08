@@ -180,7 +180,7 @@ video {
   transform: translate(-50%, -50%) scale(0);
   background: #fff;
   width: 670px;
-  height: 480px;
+  height: 500px;
   z-index: 2;
   padding: 20px;
   box-sizing: border-box;
@@ -224,9 +224,6 @@ select {
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  appearance: none; /* Remove default appearance */
-  -moz-appearance: none; /* Firefox */
-  -webkit-appearance: none; /* Safari and Chrome */
   background-color: #f7f7f7;
   font-size: 16px;
   cursor: pointer;
@@ -244,17 +241,6 @@ select:hover {
 select:focus {
   border-color: #007BFF;
   background-color: #e7f3ff;
-}
-
-select::-ms-expand {
-  display: none; /* Hide the default arrow in IE/Edge */
-}
-
-select {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6" viewBox="0 0 12 6"><path d="M1.415 0L6 4.585 10.585 0 12 1.415 6 7.415 0 1.415 1.415 0z" fill="%23212121"/></svg>');
-  background-position: right 12px center;
-  background-repeat: no-repeat;
-  padding-right: 24px; /* Space for the arrow */
 }
 
 #audioInput {
