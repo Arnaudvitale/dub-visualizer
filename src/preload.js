@@ -219,6 +219,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Function to toggle fullscreen mode
+    function toggleFullScreen() {
+        if (myVideo.src) { // Check if there's a video source
+            if (!document.fullscreenElement) {
+                // If not in fullscreen, enter fullscreen for the video element
+                myVideo.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                // If in fullscreen, exit fullscreen
+                document.exitFullscreen();
+            }
+        }
+    }
+
     function stopRecording() {
         // Stop recording
         myVideo.pause();
@@ -372,6 +387,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (overlayStyles.display === 'block') {
                     TogglePopup();
                 }
+                event.preventDefault();
+                break;
+            case 'KeyF':
+                toggleFullScreen();
                 event.preventDefault();
                 break;
             default:
