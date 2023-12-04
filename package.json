@@ -20,6 +20,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.7",
+    "@ffmpeg/util": "^0.12.1",
     "electron-squirrel-startup": "^1.0.0",
     "ffmpeg-static-electron": "^2.0.3"
   },
