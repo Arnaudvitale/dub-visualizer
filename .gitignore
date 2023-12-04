@@ -93,3 +93,4 @@ out/
 release-builds/
 
 package-lock.json
+webVersion/
