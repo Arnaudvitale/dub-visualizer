@@ -286,7 +286,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to start recording
     function startRecording(stream) {
-        mediaRecorder = new MediaRecorder(stream);
+        // Create the MediaRecorder instance
+        const options = { mimeType: 'audio/webm' };
+        mediaRecorder = new MediaRecorder(stream, options);
 
         mediaRecorder.onstart = (event) => {
             // Reset previously recorded chunks
@@ -309,20 +311,20 @@ document.addEventListener('DOMContentLoaded', function() {
         mediaRecorder.onstop = (event) => {
             // Create a blob from the recorded chunks
             const blob = new Blob(recordedChunks, {
-                type: 'audio/wav'
+                type: 'audio/webm; codecs=opus'
             });
 
-            // Create a link to download the audio
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            document.body.appendChild(a);
-            a.style = 'display: none';
-            a.href = url;
-            a.download = 'enregistrement.wav';
-            a.click();
+                // Create a link to download the audio
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                document.body.appendChild(a);
+                a.style = 'display: none';
+                a.href = url;
+                a.download = 'enregistrement.webm';
+                a.click();
 
-            // Cleanup
-            window.URL.revokeObjectURL(url);
+                // Cleanup
+                window.URL.revokeObjectURL(url);
 
             // Reset visual feedback
             recordButton.style.backgroundColor = '';
