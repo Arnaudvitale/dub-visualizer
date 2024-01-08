@@ -1,5 +1,5 @@
 # dub-visualizer
-c'est une application qui ouvre une vidéo en plein écran (ou en une taille convenable) ou l'on peut enregistrer un audio sur cette vidéo.
+c'est une application qui ouvre une vidéo en plein écran (ou en une taille convenable) ou l'on peut enregistrer un audio sur cette vidéo. Possibilité de changer de langue.
 
 ## Structure du Projet
 
