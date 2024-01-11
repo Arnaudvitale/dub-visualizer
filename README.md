@@ -50,7 +50,7 @@ Suivez ces étapes pour installer et exécuter le projet :
     npm run make
     ```
 
-    Cette commande créera un package pour votre système d'exploitation actuel. Si vous souhaitez créer un package pour le système d'exploitation Windows, vous pouvez utiliser la commande suivante :
+    Cette commande créera un package pour votre système d'exploitation actuel. Si vous souhaitez créer un package pour Windows, vous pouvez utiliser la commande suivante :
 
     ```
     npm run package-win
