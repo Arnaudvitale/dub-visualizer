@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var unrecordedText = document.getElementById('recordText1');
     var mediaRecorder; // will be initialized with MediaRecorder instance
     var recordedChunks = [];
+    var activeStream = null; // active microphone stream
     // themes
     const settingsButton = document.getElementById('settings-button');
     const themeOptions = document.getElementById('theme-options');
@@ -16,7 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const paramButton = document.getElementById('parameter');
     const closePopupButton = document.getElementById('close-btn-id');
     const bod = document.getElementById('bod');
-    localStorage.setItem('theme', 'dark');
+    if (localStorage.getItem('theme') === 'light') {
+        bod.classList.add('light');
+    }
 
     // translations
     const translations = {
@@ -173,24 +176,72 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateTexts('en');
 
+    // Encode an AudioBuffer as a WAV ArrayBuffer (PCM 16-bit little-endian)
+    function audioBufferToWav(audioBuffer) {
+        const numChannels = audioBuffer.numberOfChannels;
+        const sampleRate = audioBuffer.sampleRate;
+        const bitDepth = 16;
+        const channels = [];
+        for (let i = 0; i < numChannels; i++) {
+            channels.push(audioBuffer.getChannelData(i));
+        }
+        const numSamples = channels[0].length;
+        const dataLength = numSamples * numChannels * (bitDepth / 8);
+        const buffer = new ArrayBuffer(44 + dataLength);
+        const view = new DataView(buffer);
+
+        function writeStr(offset, str) {
+            for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+        }
+
+        writeStr(0, 'RIFF');
+        view.setUint32(4, 36 + dataLength, true);
+        writeStr(8, 'WAVE');
+        writeStr(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true); // PCM
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * numChannels * (bitDepth / 8), true);
+        view.setUint16(32, numChannels * (bitDepth / 8), true);
+        view.setUint16(34, bitDepth, true);
+        writeStr(36, 'data');
+        view.setUint32(40, dataLength, true);
+
+        let offset = 44;
+        for (let i = 0; i < numSamples; i++) {
+            for (let ch = 0; ch < numChannels; ch++) {
+                const s = Math.max(-1, Math.min(1, channels[ch][i]));
+                view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                offset += 2;
+            }
+        }
+        return buffer;
+    }
+
     // Function to populate the audio devices dropdowns
     function populateAudioDevices() {
+        const audioInputEl = document.getElementById('audioInput');
+        const audioOutputEl = document.getElementById('audioOutput');
+        // Clear previous options (keep first disabled placeholder)
+        while (audioInputEl.options.length > 1) audioInputEl.remove(1);
+        while (audioOutputEl.options.length > 1) audioOutputEl.remove(1);
+
         navigator.mediaDevices.enumerateDevices().then(devices => {
             devices.forEach(device => {
                 let option = document.createElement('option');
                 option.value = device.deviceId;
                 option.textContent = device.label || 'no name device';
                 if (device.kind === 'audioinput') {
-                    document.getElementById('audioInput').appendChild(option.cloneNode(true)); // cloneNode(true) to avoid the error "An attempt was made to reference a Node in a context where it does not exist."
+                    audioInputEl.appendChild(option.cloneNode(true));
                 } else if (device.kind === 'audiooutput') {
-                    document.getElementById('audioOutput').appendChild(option.cloneNode(true)); // cloneNode(true) to avoid the error "An attempt was made to reference a Node in a context where it does not exist."
+                    audioOutputEl.appendChild(option.cloneNode(true));
                 }
             });
         }).catch(error => {
             console.error("Error enumerating devices:", error);
         });
     }
-    populateAudioDevices();
 
     // Function to toggle the theme options menu
     function toggleThemeOptions() {
@@ -246,9 +297,13 @@ document.addEventListener('DOMContentLoaded', function() {
         recordText.style.display = 'none';
         unrecordedText.style.display = 'block';
         addFadeInAnimation(unrecordedText);
-        recordButton.style.border = '1px solid black';
-        recordButton.style.filter = 'invert(0%)';
+        recordButton.classList.remove('recording');
         mediaRecorder.stop();
+        // Release microphone
+        if (activeStream) {
+            activeStream.getTracks().forEach(track => track.stop());
+            activeStream = null;
+        }
     }
 
     // Function to toggle recording
@@ -257,21 +312,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
             // Get the selected audio input device
             var selectedAudioInputId = document.getElementById('audioInput').value;
-            var selectedAudioOutputId = document.getElementById('audioOutput').value;
-            if (selectedAudioInputId === "select a microphone" || selectedAudioInputId === "Sélectionnez un microphone") {
-                selectedAudioInputId = undefined; // set to default microphone
-            } else if (selectedAudioOutputId === "select a headphone" || selectedAudioOutputId === "Sélectionnez un casque") {
-                selectedAudioOutputId = undefined; // set to default headphones
-            }
+            // Empty string means the placeholder is selected (no device chosen) → use default
+            var useDefaultInput = !selectedAudioInputId || selectedAudioInputId.trim() === '';
             navigator.mediaDevices.getUserMedia({
                 audio: {
-                    deviceId: selectedAudioInputId ? { exact: selectedAudioInputId } : undefined
+                    deviceId: useDefaultInput ? undefined : { exact: selectedAudioInputId }
                 }
             })
             .then(stream => {
+                activeStream = stream;
                 // Start recording
                 myVideo.play();
-                recordText.style.display = 'block';
+                recordText.style.display = 'flex';
                 unrecordedText.style.display = 'none';
                 addFadeInAnimation(recordText);
                 startRecording(stream);
@@ -294,12 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reset previously recorded chunks
             recordedChunks = [];
             // Visual feedback for recording
-            recordButton.style.border = 'none';
-            if (localStorage.getItem('theme') === 'dark') {
-                recordButton.style.filter = 'invert(100%)';
-            } else if (localStorage.getItem('theme') === 'light') {
-                recordButton.style.filter = 'none';
-            }
+            recordButton.classList.add('recording');
         };
 
         mediaRecorder.ondataavailable = (event) => {
@@ -308,13 +355,34 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        mediaRecorder.onstop = (event) => {
+        mediaRecorder.onstop = async (event) => {
             // Create a blob from the recorded chunks
             const blob = new Blob(recordedChunks, {
                 type: 'audio/webm; codecs=opus'
             });
 
-                // Create a link to download the audio
+            try {
+                // Convert WebM/Opus to WAV via Web Audio API
+                const arrayBuffer = await blob.arrayBuffer();
+                const audioContext = new AudioContext();
+                const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+                await audioContext.close();
+
+                const wavBuffer = audioBufferToWav(audioBuffer);
+                const wavBlob = new Blob([wavBuffer], { type: 'audio/wav' });
+
+                const url = URL.createObjectURL(wavBlob);
+                const a = document.createElement('a');
+                document.body.appendChild(a);
+                a.style = 'display: none';
+                a.href = url;
+                a.download = 'enregistrement.wav';
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (err) {
+                console.error('Erreur lors de la conversion en WAV, téléchargement en WebM :', err);
+                // Fallback : download as webm
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 document.body.appendChild(a);
@@ -322,11 +390,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 a.href = url;
                 a.download = 'enregistrement.webm';
                 a.click();
-
-                // Cleanup
+                document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
+            }
 
-            // Reset visual feedback
+        // Reset visual feedback
             recordButton.style.backgroundColor = '';
         };
 
@@ -430,9 +498,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     lightThemeButton.addEventListener('click', function() {
-        bod.style.background = 'white';
-        recordText.style.color = 'gray';
-        unrecordedText.style.color = 'gray';
+        bod.classList.add('light');
         localStorage.setItem('theme', 'light');
         toggleThemeOptions();
     });
@@ -450,9 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     darkThemeButton.addEventListener('click', function() {
-        bod.style.background = 'linear-gradient(90deg, #1E1E1E 0%, #2D2D2D 100%)';
-        recordText.style.color = 'white';
-        unrecordedText.style.color = 'white';
+        bod.classList.remove('light');
         localStorage.setItem('theme', 'dark');
         toggleThemeOptions();
     });

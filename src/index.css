@@ -1,8 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(90deg, #1E1E1E 0%, #2D2D2D 100%);
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #111111;
+  color: #e0e0e0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,8 +18,7 @@ body {
 
 .video-container {
   padding: 20px;
-  border-radius: 10px;
-  margin-top: 50px;
+  margin-top: 44px;
 }
 
 .video-upload {
@@ -23,16 +27,23 @@ body {
 }
 
 .video-upload-label {
-  padding: 12px 20px;
-  background-color: blueviolet;
-  color: white;
-  border-radius: 5px;
+  display: inline-block;
+  padding: 10px 24px;
+  background: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #3a3a3a;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
   user-select: none;
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .video-upload-label:hover {
-  background-color: #7524c1;
+  background: #2a2a2a;
+  border-color: #555;
 }
 
 input[type="file"] {
@@ -40,7 +51,6 @@ input[type="file"] {
 }
 
 .video-player {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,76 +58,117 @@ input[type="file"] {
 
 video {
   max-width: 90%;
-  max-height: 75vh;
+  max-height: 74vh;
   display: none;
+  border-radius: 4px;
+  border: 1px solid #2a2a2a;
 }
 
 #mic {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  border: none;
-  margin-top: 20px;
+  margin-top: 18px;
+  gap: 8px;
 }
 
 #microphone {
-  filter: none;
-  border: 2px solid black;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   padding: 10px;
   display: none;
   cursor: pointer;
   user-select: none;
-  transition: transform 0.3s;
+  border-radius: 50%;
+  border: 1px solid #383838;
+  background: #1e1e1e;
+  transition: background 0.15s, border-color 0.15s;
+  filter: invert(85%);
 }
 
 #microphone:hover {
-  transform: scale(1.1);
+  background: #2a2a2a;
+  border-color: #555;
+}
+
+#microphone.recording {
+  border-color: #c0392b;
+  background: #1e1010;
+  filter: invert(85%) sepia(1) saturate(2) hue-rotate(300deg);
 }
 
 #recordText, #recordText1 {
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  color: #888;
   display: none;
   text-align: center;
-  margin-top: 10px;
   user-select: none;
+  letter-spacing: 0.2px;
+  margin: 0;
 }
 
-/* themes buttons */
+#recordText {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  color: #c0392b;
+}
+
+#recordText::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c0392b;
+  flex-shrink: 0;
+  animation: rec-blink 1.4s step-start infinite;
+}
+
 #settings-panel {
   position: fixed;
   top: 10px;
   right: 10px;
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 44px;
+  z-index: 10;
 }
 
 #settings-button {
-  background-color: transparent;
+  background: transparent;
   border: none;
+  border-radius: 0;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
   user-select: none;
-  font-size: 24px;
-  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  transition: color 0.15s;
+  padding: 0;
+}
+
+#settings-button:hover {
+  background: transparent;
+  border-color: transparent;
+  color: #ccc;
 }
 
 #theme-options {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   position: absolute;
   top: 0;
   right: -600px;
-  transition: right 0.5s ease;
-  padding: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  background-color: #f4f4f4;
-  border-radius: 10px;
+  transition: right 0.3s ease;
+  padding: 6px 8px;
+  background: #1e1e1e;
+  border: 1px solid #2e2e2e;
+  border-radius: 8px;
 }
 
 #theme-options.hidden {
@@ -126,87 +177,73 @@ video {
 
 #theme-buttons {
   display: flex;
+  gap: 4px;
 }
 
 #light-theme, #dark-theme {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 0 5px;
-  border: none;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border: 1px solid #3a3a3a;
   border-radius: 5px;
-  background-color: #808080;
-  color: white;
-  user-select: none;
+  background: #272727;
+  color: #c0c0c0;
   cursor: pointer;
   user-select: none;
-  transition: background-color 0.3s ease;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 #light-theme:hover, #dark-theme:hover {
-  background-color: #606060;
+  background: #333;
+  border-color: #555;
+  color: #f0f0f0;
 }
 
 #parameter {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 0 5px;
-  border: none;
-  border: 1px solid #808080;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border: 1px solid #3a3a3a;
   border-radius: 5px;
-  user-select: none;
-  color: gray;
+  background: transparent;
+  color: #888;
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
 #parameter:hover {
-  transform: scale(1.06);
+  background: #272727;
+  border-color: #555;
+  color: #c0c0c0;
 }
 
 .popup .overlay {
   position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 1;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 100;
   display: none;
 }
 
 .popup .content {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background: #fff;
-  width: 670px;
-  height: 540px;
-  z-index: 2;
-  padding: 20px;
-  box-sizing: border-box;
-  font-family: "Open Sans", sans-serif;
-  border-radius: 3px;
-}
-
-#popup-title {
-  text-align: center;
-}
-
-.popup .close-btn {
-  cursor: pointer;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  width: 30px;
-  height: 30px;
-  font-size: 25px;
-  font-weight: 600;
-  line-height: 30px;
-  background: #222;
-  color: #fff;
-  text-align: center;
-  user-select: none;
-  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  opacity: 0;
+  background: #fafafa;
+  color: #1a1a1a;
+  width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 101;
+  padding: 28px 32px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .popup.active .overlay {
@@ -214,62 +251,182 @@ video {
 }
 
 .popup.active .content {
-  transition: all 300ms ease-in-out;
   transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.popup-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111;
+  margin: 20px 0 10px;
+}
+
+.popup ul {
+  margin: 0 0 8px 0;
+  padding-left: 18px;
+}
+
+.popup ul li {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.9;
+}
+
+.popup .close-btn {
+  cursor: pointer;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  background: #e8e8e8;
+  color: #333;
+  text-align: center;
+  user-select: none;
+  border-radius: 50%;
+  border: none;
+  transition: background 0.15s;
+}
+
+.popup .close-btn:hover {
+  background: #d4d4d4;
 }
 
 select {
-  font-family: Arial, sans-serif;
-  width: calc(50% - 10px);
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  width: calc(50% - 6px);
+  padding: 8px 10px;
+  border-radius: 5px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  font-size: 13px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  color: #333;
+  color: #222;
   outline: none;
+  transition: border-color 0.15s;
+  appearance: auto;
 }
 
-/* Hover state */
 select:hover {
-  background-color: #ebebeb;
+  border-color: #aaa;
 }
 
-/* Focus state */
 select:focus {
-  border-color: #007BFF;
-  background-color: #e7f3ff;
+  border-color: #555;
 }
 
 #audioInput {
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
-/* animations */
+#language-select {
+  width: 180px;
+  margin-bottom: 12px;
+}
+
 @keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes rec-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 
 .rotate {
-  animation: rotate 1s;
+  animation: rotate 0.6s ease;
 }
 
 .fade-in {
-  animation: fade-in 0.5s ease-in-out;
+  animation: fade-in 0.3s ease;
+}
+
+body.light {
+  background: #f2f2f2;
+  color: #1a1a1a;
+}
+
+body.light video {
+  border-color: #ccc;
+}
+
+body.light .video-upload-label {
+  background: #fff;
+  color: #1a1a1a;
+  border-color: #ccc;
+}
+
+body.light .video-upload-label:hover {
+  background: #f0f0f0;
+  border-color: #999;
+}
+
+body.light #microphone {
+  background: #eee;
+  border-color: #ccc;
+  filter: invert(0%);
+}
+
+body.light #microphone:hover {
+  background: #e0e0e0;
+}
+
+body.light #microphone.recording {
+  background: #fde8e6;
+  border-color: #c0392b;
+  filter: sepia(1) saturate(3) hue-rotate(300deg);
+}
+
+body.light #recordText, body.light #recordText1 {
+  color: #555;
+}
+
+body.light #recordText {
+  color: #c0392b;
+}
+
+body.light #settings-button {
+  background: transparent;
+  border-color: transparent;
+  color: #666;
+}
+
+body.light #settings-button:hover {
+  background: transparent;
+  color: #111;
+}
+
+body.light #theme-options {
+  background: #fff;
+  border-color: #ddd;
+}
+
+body.light #light-theme, body.light #dark-theme {
+  background: #f0f0f0;
+  border-color: #ccc;
+  color: #333;
+}
+
+body.light #light-theme:hover, body.light #dark-theme:hover {
+  background: #e4e4e4;
+}
+
+body.light #parameter {
+  color: #555;
+}
+
+body.light #parameter:hover {
+  background: #f0f0f0;
+  color: #222;
 }
