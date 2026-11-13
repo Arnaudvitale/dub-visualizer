@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; media-src 'self' blob:; img-src 'self' data:" />
     <title>dub-visualizer</title>
     <link rel="stylesheet" href="index.css" />
   </head>
@@ -34,8 +35,8 @@
             <li data-translate="shift_r_record">Shift + R - Go to the beginning of the video and start recording</li>
           </ul>
           <h1 data-translate="audio_device" class="popup-title">Select your audio devices</h1>
-          <select data-translate="audioInputDevice" id="audioInput"><option value="" selected disabled>select a microphone</option></select>
-          <select data-translate="audioOutputDevice" id="audioOutput"><option value="" selected disabled>select a headphone</option></select>
+          <select id="audioInput"><option data-translate="audioInputDevice" value="" selected disabled>select a microphone</option></select>
+          <select id="audioOutput"><option data-translate="audioOutputDevice" value="" selected disabled>select a headphone</option></select>
         </p>
       </div>
     </div>
@@ -63,10 +64,12 @@
           <video id="myVideo" controls></video>
         </div>
         <div id="mic">
-          <img src="../img/microphone-solid.svg" id="microphone" height="50px" width="50px"/>
+          <img src="../img/microphone-solid.svg" id="microphone" alt="Record" height="50" width="50"/>
           <p data-translate="recordTextOne" id="recordText1">click to record</p>
           <p data-translate="recordingText" id="recordText">record in progress...</p>
         </div>
       </div>
+    <div id="toast" role="alert"></div>
+    <script src="renderer.js"></script>
   </body>
 </html>

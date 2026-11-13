@@ -17,14 +17,22 @@ Voici une description de la structure de base du projet :
 
     - **src/index.html** : Le fichier HTML principal de notre application.
     - **src/index.css** : Le fichier CSS principal de notre application.
-    - **src/index.js** : Le fichier JavaScript principal de notre application.
-    - **src/preload.js** : Le fichier JavaScript qui sera exécuté dans le processus de rendu de la page Web avant que le contenu de la page Web ne soit chargé. Il peut être utilisé pour modifier le comportement de la page Web ou pour exécuter du code JavaScript côté client qui a besoin d'un accès privilégié à l'API Electron.
+    - **src/index.js** : Le processus principal Electron (création de la fenêtre).
+    - **src/renderer.js** : Le code de l'interface (lecture vidéo, raccourcis clavier, enregistrement du micro, langues, thèmes). Il s'exécute dans la page, sans accès à Node.js.
+    - **src/recorder-worklet.js** : L'AudioWorklet qui capture le son brut du micro (PCM), ensuite exporté en `.wav` sans compression.
+
+## Fonctionnalités
+
+- Lecture d'une vidéo locale, plein écran avec `F`.
+- Enregistrement du micro synchronisé avec la vidéo (`R`, ou `Shift + R` pour repartir du début), export en `.wav` PCM 16 bits nommé d'après la vidéo et l'heure de la prise.
+- Choix du micro et de la sortie audio, mémorisés entre deux lancements.
+- Interface en 6 langues (anglais, français, espagnol, allemand, italien, russe) et thème clair / sombre, mémorisés également.
 
 ## Installation
 
 Suivez ces étapes pour installer et exécuter le projet :
 
-1. **Installer Node.js et npm :** [https://nodejs.org/](https://nodejs.org/).
+1. **Installer Node.js (version 22.13 ou plus récente) et npm :** [https://nodejs.org/](https://nodejs.org/).
 
 2. **Installer les dépendances du projet :**
 
@@ -33,6 +41,8 @@ Suivez ces étapes pour installer et exécuter le projet :
     ```
     npm install
     ```
+
+    Le dépôt fournit un `yarn.lock` : pour installer exactement les versions verrouillées, utilisez plutôt `yarn install`.
 
 3. **Lancer l'application :**
 

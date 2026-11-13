@@ -2,7 +2,7 @@
   "name": "dub-visualizer",
   "productName": "dub-visualizer",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Dubbing helper: play a video fullscreen and record a synchronized microphone take as WAV",
   "main": "src/index.js",
   "scripts": {
     "app": "electron-forge start",
@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
     "windows": "electron-forge make --platform=win32",
-    "package-win": "electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=release-builds"
+    "package-win": "electron-forge package --platform=win32 --arch=x64"
   },
   "keywords": [],
   "author": {
@@ -19,11 +19,11 @@
     "email": "arnaud.vitale@epitech.eu"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.7",
-    "@ffmpeg/util": "^0.12.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "ffmpeg-static-electron": "^2.0.3"
+    "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "^8.0.1",
